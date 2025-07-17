@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glassfish-resources>
+    <!-- JDBC Connection Pool -->
+    <jdbc-connection-pool
+            name="TrustSphere_Connection_Pool"
+            res-type="javax.sql.DataSource"
+            datasource-classname="com.mysql.cj.jdbc.MysqlDataSource"
+            driver-classname=""
+            steady-pool-size="8"
+            max-pool-size="32"
+            pool-resize-quantity="2"
+            idle-timeout-in-seconds="300"
+            is-connection-validation-required="true"
+            connection-validation-method="auto-commit"
+            fail-all-connections="false">
+        <property name="allowPublicKeyRetrieval" value="true"/>
+        <property name="useSSL" value="false"/>
+        <!--<property name="password" value="King7f2d!@#$"/>-->
+        <property name="password" value="${ENV_DB_PASSWORD}"/>
+        <property name="databaseName" value="trust_sphere_db"/>
+        <property name="serverName" value="localhost"/>
+        <property name="user" value="root"/>
+        <property name="portNumber" value="3306"/>
+    </jdbc-connection-pool>
+
+    <!-- JDBC Resource -->
+    <jdbc-resource
+            enabled="true"
+            pool-name="TrustSphere_Connection_Pool"
+            jndi-name="trust_sphere_jdbc"/>
+</glassfish-resources>

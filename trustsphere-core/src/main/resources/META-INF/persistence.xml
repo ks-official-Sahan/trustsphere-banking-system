@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="trustspherePU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>trust_sphere_jdbc</jta-data-source>
+
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <!-- Optional for clarity -->
+        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+        <!--<class>com.trustsphere.core.entity.User</class>-->
+        <!--<class>com.trustsphere.core.entity.Role</class>-->
+        <!--<class>com.trustsphere.core.entity.Account</class>-->
+        <!--<class>com.trustsphere.core.entity.Transaction</class>-->
+        <!--<class>com.trustsphere.core.entity.AuditLog</class>-->
+        <!--<class>com.trustsphere.core.entity.Notification</class>-->
+
+        <properties>
+            <!-- Hibernate schema strategy -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+            <!-- MySQL compatibility -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+
+            <!-- SQL visibility -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- GlassFish JTA integration -->
+            <property name="hibernate.transaction.coordinator_class" value="jta"/>
+            <property name="hibernate.transaction.jta.platform"
+                      value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+
+            <!-- Batch processing -->
+            <property name="hibernate.jdbc.batch_size" value="25"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+
+            <!-- Caching (optional) -->
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.region.factory_class"
+                      value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
+        </properties>
+    </persistence-unit>
+</persistence>

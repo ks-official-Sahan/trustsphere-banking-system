@@ -8,8 +8,24 @@
         <artifactId>trustsphere-parent</artifactId>
         <version>1.0.0</version>
     </parent>
+    <packaging>ejb</packaging>
 
     <artifactId>trustsphere-ejb</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- Jakarta EE API provided -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

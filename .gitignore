@@ -36,3 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+#
+trustsphere-ear/src/main/setup/glassfish-resources.xml
