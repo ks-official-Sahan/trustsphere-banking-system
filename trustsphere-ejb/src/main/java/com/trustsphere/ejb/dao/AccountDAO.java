@@ -35,6 +35,12 @@ public class AccountDAO {
         return query.getResultList();
     }
 
+    public List<Account> findActiveAccounts() {
+        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a WHERE a.status = com.trustsphere.core.enums.AccountStatus.ACTIVE", Account.class);
+        return query.getResultList();
+    }
+
+
     public List<Account> findActiveByUserId(String userId) {
         TypedQuery<Account> query = em.createNamedQuery("Account.findActiveByUserId", Account.class);
         query.setParameter("userId", userId);
@@ -51,5 +57,10 @@ public class AccountDAO {
         } else {
             em.remove(em.merge(account));
         }
+    }
+
+    public void flushBatch() {
+        em.flush();
+        em.clear();
     }
 }

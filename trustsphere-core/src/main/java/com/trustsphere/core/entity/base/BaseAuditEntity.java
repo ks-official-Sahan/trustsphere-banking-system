@@ -1,11 +1,13 @@
 package com.trustsphere.core.entity.base;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
 @MappedSuperclass
-public abstract class BaseAuditEntity {
+public abstract class BaseAuditEntity implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false)

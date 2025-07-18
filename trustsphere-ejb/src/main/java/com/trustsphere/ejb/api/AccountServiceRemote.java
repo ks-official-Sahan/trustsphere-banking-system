@@ -16,4 +16,7 @@ public interface AccountServiceRemote {
     List<AccountDTO> listActiveByUser(String userId);
 
     void updateStatus(String id, AccountStatus status);
+
+    void applyDailyInterestToAllActiveAccounts();
+
 }

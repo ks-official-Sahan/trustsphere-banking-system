@@ -4,6 +4,7 @@ import com.trustsphere.core.enums.AccountStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public class AccountDTO implements Serializable {
@@ -13,8 +14,8 @@ public class AccountDTO implements Serializable {
     private BigDecimal balance;
     private AccountStatus status;
     private String userId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     public String getId() {
         return id;
@@ -56,19 +57,19 @@ public class AccountDTO implements Serializable {
         this.userId = userId;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

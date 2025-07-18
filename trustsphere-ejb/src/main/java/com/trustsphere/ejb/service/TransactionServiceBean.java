@@ -13,19 +13,28 @@ import com.trustsphere.ejb.dao.AuditLogDAO;
 import com.trustsphere.ejb.dto.TransactionDTO;
 import com.trustsphere.ejb.exception.AccountNotFoundException;
 import com.trustsphere.ejb.exception.InsufficientFundsException;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.transaction.UserTransaction;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
+@RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TELLER"})
 public class TransactionServiceBean implements TransactionServiceRemote {
+
+    private static final Logger logger = LoggerFactory.getLogger(TransactionServiceBean.class);
 
     @Resource
     private UserTransaction utx;
@@ -44,6 +53,7 @@ public class TransactionServiceBean implements TransactionServiceRemote {
     public TransactionDTO transfer(String srcId, String tgtId, BigDecimal amount) {
         try {
             utx.begin();
+            utx.setTransactionTimeout(30);
 
             Account sourceAccount = accountDAO.findById(srcId);
             Account targetAccount = accountDAO.findById(tgtId);
@@ -95,9 +105,12 @@ public class TransactionServiceBean implements TransactionServiceRemote {
         } catch (Exception e) {
             try {
                 utx.rollback();
+                logger.info("transaction rollback: " +  e.getMessage());
             } catch (Exception rollbackEx) {
                 // Log rollback failure
+                logger.error(rollbackEx.getMessage());
             }
+            logger.error("Transfer failed :{}", e.getMessage(), e);
             throw new RuntimeException("Transfer failed", e);
         }
     }

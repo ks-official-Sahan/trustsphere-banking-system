@@ -5,43 +5,96 @@ import com.trustsphere.core.enums.SeverityLevel;
 import com.trustsphere.ejb.api.AuditServiceRemote;
 import com.trustsphere.ejb.dao.AuditLogDAO;
 import com.trustsphere.ejb.dto.AuditLogDTO;
-import java.util.List;
-import java.util.stream.Collectors;
-import jakarta.ejb.EJB;
+
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Inject;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Stateless
+@RolesAllowed({"ROLE_AUDITOR", "ROLE_ADMIN"})
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AuditServiceBean implements AuditServiceRemote {
 
-    @EJB
+    @Inject
     private AuditLogDAO auditLogDAO;
 
     @Override
-    public List<AuditLogDTO> getBySeverity(SeverityLevel level) {
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<AuditLogDTO> getRecentLogs(int limit) {
+        return auditLogDAO.findRecent(limit).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<AuditLogDTO> getLogsBySeverity(SeverityLevel level) {
         return auditLogDAO.findBySeverity(level).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AuditLogDTO> getRecent(int max) {
-        return auditLogDAO.findRecent(max).stream()
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<AuditLogDTO> getLogsByUser(String userId) {
+        return auditLogDAO.findByUserId(userId).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
-    private AuditLogDTO mapToDTO(AuditLog auditLog) {
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<AuditLogDTO> getLogsByResource(String resourceType, String resourceId) {
+        return auditLogDAO.findByResource(resourceType, resourceId).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void recordAuditEntry(AuditLogDTO dto) {
+        AuditLog log = new AuditLog();
+        log.setId(UUID.randomUUID().toString());
+        log.setActorUserId(dto.getActorUserId());
+        log.setAction(dto.getAction());
+        log.setResourceType(dto.getResourceType());
+        log.setResourceId(dto.getResourceId());
+        log.setSeverityLevel(dto.getSeverityLevel());
+        log.setDetails(dto.getDetails());
+        log.setIpAddress(dto.getIpAddress());
+        log.setUserAgent(dto.getUserAgent());
+        log.setTimestamp(dto.getTimestamp().atZone(ZoneId.systemDefault()).toInstant());
+        auditLogDAO.save(log);
+    }
+
+    private AuditLogDTO mapToDTO(AuditLog log) {
         AuditLogDTO dto = new AuditLogDTO();
-        dto.setId(auditLog.getId());
-        dto.setActorUserId(auditLog.getActorUserId());
-        dto.setAction(auditLog.getAction());
-        dto.setResourceType(auditLog.getResourceType());
-        dto.setResourceId(auditLog.getResourceId());
-        dto.setSeverityLevel(auditLog.getSeverityLevel());
-        dto.setDetails(auditLog.getDetails());
-        dto.setIpAddress(auditLog.getIpAddress());
-        dto.setUserAgent(auditLog.getUserAgent());
-        dto.setTimestamp(auditLog.getTimestamp());
+        dto.setId(log.getId());
+        dto.setActorUserId(log.getActorUserId());
+        dto.setAction(log.getAction());
+        dto.setResourceType(log.getResourceType());
+        dto.setResourceId(log.getResourceId());
+        dto.setSeverityLevel(log.getSeverityLevel());
+        dto.setDetails(log.getDetails());
+        dto.setIpAddress(log.getIpAddress());
+        dto.setUserAgent(log.getUserAgent());
+        dto.setTimestamp(log.getTimestamp().atZone(ZoneId.systemDefault()).toInstant());
         return dto;
     }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void deleteOlderThan(int days) {
+        Instant threshold = Instant.now().minus(days, ChronoUnit.DAYS);
+        auditLogDAO.deleteBefore(threshold);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.trustsphere.ejb.dto;
 import com.trustsphere.core.enums.NotificationType;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public class NotificationDTO implements Serializable {
@@ -12,7 +13,7 @@ public class NotificationDTO implements Serializable {
     private String userId;
     private NotificationType type;
     private String message;
-    private LocalDateTime timestamp;
+    private Instant timestamp;
 
     // Getters & Setters
     public String getId() {
@@ -47,11 +48,11 @@ public class NotificationDTO implements Serializable {
         this.message = message;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 }

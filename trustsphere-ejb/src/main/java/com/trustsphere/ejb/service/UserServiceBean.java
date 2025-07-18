@@ -9,10 +9,16 @@ import com.trustsphere.ejb.dto.UserDTO;
 import com.trustsphere.ejb.exception.UserNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 
 @Stateless
+@RolesAllowed({"ROLE_ADMIN"})
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UserServiceBean implements UserServiceRemote {
 
     @EJB
@@ -35,6 +41,7 @@ public class UserServiceBean implements UserServiceRemote {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<UserDTO> listActiveUsers() {
         return userDAO.findAll().stream()
                 .filter(user -> user.getStatus() == UserStatus.ACTIVE)

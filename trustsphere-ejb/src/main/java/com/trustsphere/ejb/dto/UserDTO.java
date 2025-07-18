@@ -3,6 +3,7 @@ package com.trustsphere.ejb.dto;
 import com.trustsphere.core.enums.UserStatus;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -12,8 +13,8 @@ public class UserDTO implements Serializable {
     private String email;
     private String fullName;
     private UserStatus status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
     private Set<String> roleNames;
 
     public String getId() {
@@ -48,19 +49,19 @@ public class UserDTO implements Serializable {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 
