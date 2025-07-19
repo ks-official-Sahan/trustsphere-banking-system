@@ -1,13 +1,9 @@
 package com.trustsphere.ejb.timer;
 
-import com.trustsphere.ejb.service.AccountServiceBean;
+import com.trustsphere.ejb.remote.AccountServiceRemote;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Schedule;
-import jakarta.ejb.Singleton;
-import jakarta.ejb.Startup;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.inject.Inject;
+import jakarta.ejb.*;
 import jakarta.transaction.Transactional;
 
 import static jakarta.ejb.TransactionAttributeType.REQUIRES_NEW;
@@ -16,8 +12,8 @@ import static jakarta.ejb.TransactionAttributeType.REQUIRES_NEW;
 @Startup
 public class InterestPostingTimerBean {
 
-    @Inject
-    private AccountServiceBean accountService;
+    @EJB
+    private AccountServiceRemote accountService;
 
     //@Transactional
     @TransactionAttribute(REQUIRES_NEW)

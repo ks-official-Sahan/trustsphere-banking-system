@@ -18,13 +18,53 @@
             <groupId>com.trustsphere</groupId>
             <artifactId>trustsphere-core</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
+
         <!-- Jakarta EE API provided -->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Jakarta Persistence API -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Hibernate Core for JPA -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.3.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>6.3.0.Final</version>
+        </dependency>
+
+        <!-- MySQL JDBC Driver -->
+        <!--<dependency>-->
+        <!--    <groupId>mysql</groupId>-->
+        <!--    <artifactId>mysql-connector-java</artifactId>-->
+        <!--    <version>8.0.33</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>4.28.2</version>
         </dependency>
 
         <dependency>
@@ -42,5 +82,15 @@
 
     <build>
         <finalName>trustsphere-ejb</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <generateClient>true</generateClient>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

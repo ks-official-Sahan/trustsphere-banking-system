@@ -20,13 +20,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.transaction.UserTransaction;
 
 @Stateless
 @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TELLER"})

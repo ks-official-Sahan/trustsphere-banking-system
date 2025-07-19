@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application xmlns="https://jakarta.ee/xml/ns/jakartaee"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             version="10"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
-                                 https://jakarta.ee/xml/ns/jakartaee/application_10.xsd">
+<application xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd"
+             version="7">
 
     <display-name>TrustSphere EAR</display-name>
 
     <module>
-        <ejb>trustsphere-ejb-1.0.0.jar</ejb>
+        <web>
+            <web-uri>trustsphere-rest.war</web-uri>
+            <context-root>trustsphere-banking-system</context-root>
+        </web>
+    </module>
+    <module>
+        <ejb>trustsphere-ejb.jar</ejb>
     </module>
 
     <module>
-        <web>
-            <web-uri>trustsphere-rest-1.0.0.war</web-uri>
-            <context-root>/api</context-root>
-        </web>
+        <java>lib/trustsphere-core.jar</java>
     </module>
-
 </application>

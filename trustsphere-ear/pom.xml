@@ -13,6 +13,27 @@
 
     <artifactId>trustsphere-ear</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-core</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-ejb</artifactId>
+            <version>1.0.0</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-rest</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -21,6 +42,38 @@
 
     <build>
         <finalName>trustsphere-ear</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <skinnyWars>true</skinnyWars>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules>
+                        <webModule>
+                            <groupId>com.trustsphere</groupId>
+                            <artifactId>trustsphere-rest</artifactId>
+                            <contextRoot>/trustsphere-banking-system</contextRoot>
+                            <bundleFileName>trustsphere-rest.war</bundleFileName>
+                        </webModule>
+
+                        <ejbModule>
+                            <groupId>com.trustsphere</groupId>
+                            <artifactId>trustsphere-ejb</artifactId>
+                            <bundleFileName>trustsphere-ejb.jar</bundleFileName>
+                        </ejbModule>
+
+                        <jarModule>
+                            <groupId>com.trustsphere</groupId>
+                            <artifactId>trustsphere-core</artifactId>
+                            <bundleDir>lib</bundleDir>
+                            <bundleFileName>trustsphere-core.jar</bundleFileName>
+                        </jarModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
