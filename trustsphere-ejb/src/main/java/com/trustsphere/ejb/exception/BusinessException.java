@@ -6,7 +6,7 @@ import jakarta.ejb.ApplicationException;
  * Base class for all business-related exceptions
  */
 @ApplicationException(rollback = true)
-public abstract class BusinessException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     private final String errorCode;
     private final boolean clientError;
@@ -25,7 +25,13 @@ public abstract class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.errorCode = null;
+        this.errorCode = "BUSINESS_ERROR";
+        this.clientError = true;
+    }
+
+    public BusinessException(String message, Throwable cause) {
+        super(message, cause);
+        this.errorCode = "BUSINESS_ERROR";
         this.clientError = true;
     }
 

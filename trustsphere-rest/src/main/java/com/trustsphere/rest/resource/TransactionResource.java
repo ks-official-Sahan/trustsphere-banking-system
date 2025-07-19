@@ -74,6 +74,11 @@ public class TransactionResource {
                         .build();
             }
 
+            // Sanitize inputs
+            srcId = sanitizeInput(srcId);
+            tgtId = sanitizeInput(tgtId);
+            description = sanitizeInput(description);
+
             String currentUser = securityContext.getUserPrincipal().getName();
             boolean isPrivilegedUser = securityContext.isUserInRole("ROLE_TELLER") ||
                     securityContext.isUserInRole("ROLE_ADMIN");
@@ -175,6 +180,18 @@ public class TransactionResource {
         }
 
         return new ValidationResult(true, null);
+    }
+
+    /**
+     * Sanitizes user input to prevent injection attacks
+     */
+    private String sanitizeInput(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replaceAll("[<>\"'&]", "")
+                   .replaceAll("\\s+", " ")
+                   .trim();
     }
 
     /**

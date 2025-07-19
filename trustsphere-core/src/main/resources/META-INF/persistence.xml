@@ -11,43 +11,134 @@
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
-        <!-- Optional for clarity -->
-        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
-        <!--<class>com.trustsphere.core.entity.User</class>-->
-        <!--<class>com.trustsphere.core.entity.Role</class>-->
-        <!--<class>com.trustsphere.core.entity.Account</class>-->
-        <!--<class>com.trustsphere.core.entity.Transaction</class>-->
-        <!--<class>com.trustsphere.core.entity.AuditLog</class>-->
-        <!--<class>com.trustsphere.core.entity.Notification</class>-->
+        <!-- Entity Classes for explicit control -->
+        <class>com.trustsphere.core.entity.User</class>
+        <class>com.trustsphere.core.entity.Role</class>
+        <class>com.trustsphere.core.entity.Account</class>
+        <class>com.trustsphere.core.entity.Transaction</class>
+        <class>com.trustsphere.core.entity.AuditLog</class>
+        <class>com.trustsphere.core.entity.Notification</class>
 
         <properties>
-            <!-- Hibernate schema strategy -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-
-            <!-- MySQL compatibility -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
-
-            <!-- SQL visibility -->
-            <property name="hibernate.show_sql" value="true"/>
+            <!-- Hibernate Schema Strategy -->
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            
+            <!-- Database Dialect -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            
+            <!-- Connection Pool Configuration -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.hikari.HikariConnectionProvider"/>
+            <property name="hibernate.hikari.minimumIdle" value="5"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="20"/>
+            <property name="hibernate.hikari.idleTimeout" value="300000"/>
+            <property name="hibernate.hikari.connectionTimeout" value="20000"/>
+            <property name="hibernate.hikari.maxLifetime" value="1200000"/>
+            <property name="hibernate.hikari.leakDetectionThreshold" value="60000"/>
+            
+            <!-- Transaction Management -->
+            <property name="hibernate.transaction.coordinator_class" value="jta"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            
+            <!-- SQL Generation and Logging -->
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-
-            <!-- GlassFish JTA integration -->
-            <property name="hibernate.transaction.coordinator_class" value="jta"/>
-            <property name="hibernate.transaction.jta.platform"
-                      value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
-
-            <!-- Batch processing -->
+            <property name="hibernate.highlight_sql" value="true"/>
+            
+            <!-- Batch Processing for Performance -->
             <property name="hibernate.jdbc.batch_size" value="25"/>
+            <property name="hibernate.jdbc.fetch_size" value="50"/>
             <property name="hibernate.order_inserts" value="true"/>
             <property name="hibernate.order_updates" value="true"/>
             <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
-
-            <!-- Caching (optional) -->
+            <property name="hibernate.jdbc.batch.builder" value="legacy"/>
+            
+            <!-- Second Level Cache Configuration -->
             <property name="hibernate.cache.use_second_level_cache" value="true"/>
             <property name="hibernate.cache.use_query_cache" value="true"/>
-            <property name="hibernate.cache.region.factory_class"
-                      value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
+            <property name="hibernate.cache.default_cache_concurrency_strategy" value="READ_WRITE"/>
+            <property name="hibernate.cache.use_minimal_puts" value="true"/>
+            
+            <!-- Query Cache Configuration -->
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.query_cache_factory" value="org.hibernate.cache.StandardQueryCacheFactory"/>
+            
+            <!-- Statistics and Monitoring -->
+            <property name="hibernate.generate_statistics" value="true"/>
+            <property name="hibernate.cache.use_structured_entries" value="true"/>
+            
+            <!-- Validation -->
+            <property name="hibernate.validator.apply_to_ddl" value="false"/>
+            <property name="hibernate.validator.autoregister_listeners" value="true"/>
+            
+            <!-- Naming Strategy -->
+            <property name="hibernate.physical_naming_strategy" value="org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"/>
+            
+            <!-- Connection Properties -->
+            <property name="hibernate.connection.characterEncoding" value="UTF-8"/>
+            <property name="hibernate.connection.useUnicode" value="true"/>
+            <property name="hibernate.connection.autoReconnect" value="true"/>
+            <property name="hibernate.connection.autoReconnectForPools" value="true"/>
+            <property name="hibernate.connection.isolation" value="2"/>
+            
+            <!-- Query Optimization -->
+            <property name="hibernate.query.in_clause_parameter_padding" value="true"/>
+            <property name="hibernate.query.fail_on_pagination_over_collection_fetch" value="true"/>
+            <property name="hibernate.query.plan_cache_max_size" value="2048"/>
+            <property name="hibernate.query.plan_parameter_metadata_max_size" value="128"/>
+            
+            <!-- Session Management -->
+            <property name="hibernate.session.events.log" value="false"/>
+            <property name="hibernate.session.events.log.LOG_QUERIES_SLOWER_THAN_MS" value="100"/>
+            
+            <!-- Entity Enhancement -->
+            <property name="hibernate.enhancer.enableDirtyTracking" value="true"/>
+            <property name="hibernate.enhancer.enableLazyInitialization" value="true"/>
+            <property name="hibernate.enhancer.enableAssociationManagement" value="true"/>
+            
+            <!-- Security Settings -->
+            <property name="hibernate.connection.provider_disables_autocommit" value="true"/>
+            <property name="hibernate.connection.handling_mode" value="DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION"/>
+            
+            <!-- Performance Monitoring -->
+            <property name="hibernate.session.events.log.LOG_QUERIES_SLOWER_THAN_MS" value="1000"/>
+            <property name="hibernate.session.events.log.LOG_QUERIES" value="false"/>
+            
+            <!-- Specific Entity Cache Settings -->
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            
+            <!-- Entity-specific cache settings -->
+            <property name="hibernate.cache.region.user.cache_concurrency_strategy" value="READ_WRITE"/>
+            <property name="hibernate.cache.region.account.cache_concurrency_strategy" value="READ_WRITE"/>
+            <property name="hibernate.cache.region.transaction.cache_concurrency_strategy" value="READ_WRITE"/>
+            <property name="hibernate.cache.region.auditlog.cache_concurrency_strategy" value="READ_ONLY"/>
+            <property name="hibernate.cache.region.notification.cache_concurrency_strategy" value="READ_WRITE"/>
+            
+            <!-- JCache Configuration -->
+            <property name="hibernate.javax.cache.provider" value="org.ehcache.jsr107.EhcacheCachingProvider"/>
+            <property name="hibernate.javax.cache.uri" value="classpath:ehcache.xml"/>
+            
+            <!-- Deadlock Detection -->
+            <property name="hibernate.connection.isolation" value="2"/>
+            <property name="hibernate.connection.provider_disables_autocommit" value="true"/>
+            
+            <!-- Query Plan Cache -->
+            <property name="hibernate.query.plan_cache_max_size" value="2048"/>
+            <property name="hibernate.query.plan_parameter_metadata_max_size" value="128"/>
+            
+            <!-- Statement Cache -->
+            <property name="hibernate.jdbc.use_get_generated_keys" value="true"/>
+            <property name="hibernate.jdbc.wrap_result_sets" value="false"/>
+            
+            <!-- Metadata Cache -->
+            <property name="hibernate.metadata_builder_contributor" value="com.trustsphere.core.config.CustomMetadataBuilderContributor"/>
+            
+            <!-- Audit Configuration -->
+            <property name="hibernate.audit.enabled" value="true"/>
+            <property name="hibernate.audit.autoRegisterListeners" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -39,4 +39,10 @@ public class TransactionDAO {
             em.remove(em.merge(transaction));
         }
     }
+
+    public List<Transaction> findBySourceAccountId(String accountId) {
+        TypedQuery<Transaction> query = em.createNamedQuery("Transaction.findBySourceAccountId", Transaction.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
 }
