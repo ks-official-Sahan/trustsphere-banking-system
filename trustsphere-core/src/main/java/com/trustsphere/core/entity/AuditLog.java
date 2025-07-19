@@ -6,6 +6,8 @@ import com.trustsphere.core.enums.SeverityLevel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.time.Instant;
 
 @NamedQueries({
@@ -28,7 +30,7 @@ import java.time.Instant;
 })
 @Entity
 @Table(name = "audit_logs")
-public class AuditLog extends BaseAuditEntity {
+public class AuditLog extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @Column(name = "actor_user_id", nullable = false)

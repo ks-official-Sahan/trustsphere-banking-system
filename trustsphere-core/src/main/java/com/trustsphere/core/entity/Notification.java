@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @NamedQueries({
@@ -21,7 +22,7 @@ import java.time.Instant;
 })
 @Entity
 @Table(name = "notifications")
-public class Notification extends BaseAuditEntity {
+public class Notification extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @Column(name = "user_id", nullable = false)

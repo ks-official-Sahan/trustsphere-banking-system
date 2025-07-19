@@ -28,4 +28,22 @@
             enabled="true"
             pool-name="TrustSphere_Connection_Pool"
             jndi-name="trust_sphere_jdbc"/>
+
+    <!-- JMS connection factory -->
+    <connection-factory jndi-name="jms/ConnectionFactory"
+                        name="jms/ConnectionFactory"
+                        enabled="true"/>
+
+    <!-- JMS Topics -->
+    <admin-object-resource res-type="jakarta.jms.Topic"
+                           class-name="org.apache.activemq.artemis.jms.client.ActiveMQTopic"
+                           jndi-name="jms/audit/alert/high">
+        <property name="PhysicalName" value="audit.alert.high"/>
+    </admin-object-resource>
+
+    <admin-object-resource res-type="jakarta.jms.Topic"
+                           class-name="org.apache.activemq.artemis.jms.client.ActiveMQTopic"
+                           jndi-name="jms/bank/txn/created">
+        <property name="PhysicalName" value="bank.txn.created"/>
+    </admin-object-resource>
 </glassfish-resources>

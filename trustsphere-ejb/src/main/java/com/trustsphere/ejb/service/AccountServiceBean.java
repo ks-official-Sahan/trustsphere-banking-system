@@ -7,11 +7,12 @@ import java.util.stream.Collectors;
 
 import com.trustsphere.core.entity.Account;
 import com.trustsphere.core.enums.AccountStatus;
-import com.trustsphere.ejb.api.AccountServiceRemote;
+import com.trustsphere.ejb.remote.AccountServiceRemote;
 import com.trustsphere.ejb.dao.AccountDAO;
-import com.trustsphere.ejb.dto.AccountDTO;
+import com.trustsphere.core.dto.AccountDTO;
 import com.trustsphere.ejb.exception.AccountNotFoundException;
 
+import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -19,9 +20,12 @@ import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 
 @Stateless
-@RolesAllowed({"ROLE_ADMIN", "ROLE_TELLER", "ROLE_USER"})
+@RolesAllowed({"ROLE_ADMIN", "ROLE_TELLER"})
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AccountServiceBean implements AccountServiceRemote {
+
+    @Resource(name = "dailyInterestRate")
+    private double dailyInterestRate;
 
     @EJB
     private AccountDAO accountDAO;
@@ -34,7 +38,7 @@ public class AccountServiceBean implements AccountServiceRemote {
     }
 
     @Override
-    public AccountDTO getAccountById(String id) {
+    public AccountDTO getAccountById(String id) throws AccountNotFoundException {
         Account account = accountDAO.findById(id);
         if (account == null) {
             throw new AccountNotFoundException(id);
@@ -51,7 +55,7 @@ public class AccountServiceBean implements AccountServiceRemote {
     }
 
     @Override
-    public void updateStatus(String id, AccountStatus status) {
+    public void updateStatus(String id, AccountStatus status) throws AccountNotFoundException {
         Account account = accountDAO.findById(id);
         if (account == null) {
             throw new AccountNotFoundException(id);
@@ -85,7 +89,8 @@ public class AccountServiceBean implements AccountServiceRemote {
         List<Account> accounts = accountDAO.findActiveAccounts();
 
         //interest rate: 0.05% daily (annual 18%)
-        BigDecimal rate = new BigDecimal("0.0005");
+        //BigDecimal rate = new BigDecimal("0.0005");
+        BigDecimal rate = BigDecimal.valueOf(dailyInterestRate);
 
         int count = 0;
         for (Account acc : accounts) {

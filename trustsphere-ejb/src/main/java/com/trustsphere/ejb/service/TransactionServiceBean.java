@@ -6,38 +6,34 @@ import com.trustsphere.core.entity.AuditLog;
 import com.trustsphere.core.enums.TransactionType;
 import com.trustsphere.core.enums.TransactionStatus;
 import com.trustsphere.core.enums.SeverityLevel;
-import com.trustsphere.ejb.api.TransactionServiceRemote;
+import com.trustsphere.ejb.remote.TransactionServiceRemote;
 import com.trustsphere.ejb.dao.TransactionDAO;
 import com.trustsphere.ejb.dao.AccountDAO;
 import com.trustsphere.ejb.dao.AuditLogDAO;
-import com.trustsphere.ejb.dto.TransactionDTO;
+import com.trustsphere.core.dto.TransactionDTO;
 import com.trustsphere.ejb.exception.AccountNotFoundException;
 import com.trustsphere.ejb.exception.InsufficientFundsException;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.EJB;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
+import jakarta.ejb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.transaction.UserTransaction;
 
 @Stateless
-@TransactionManagement(TransactionManagementType.BEAN)
 @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TELLER"})
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TransactionServiceBean implements TransactionServiceRemote {
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionServiceBean.class);
-
-    @Resource
-    private UserTransaction utx;
 
     @EJB
     private AuditLogDAO auditLogDAO;
@@ -52,9 +48,6 @@ public class TransactionServiceBean implements TransactionServiceRemote {
     @Override
     public TransactionDTO transfer(String srcId, String tgtId, BigDecimal amount) {
         try {
-            utx.begin();
-            utx.setTransactionTimeout(30);
-
             Account sourceAccount = accountDAO.findById(srcId);
             Account targetAccount = accountDAO.findById(tgtId);
 
@@ -98,21 +91,51 @@ public class TransactionServiceBean implements TransactionServiceRemote {
 
             auditLogDAO.create(auditLog);
 
-            utx.commit();
-
             return mapToDTO(created);
 
         } catch (Exception e) {
-            try {
-                utx.rollback();
-                logger.info("transaction rollback: " +  e.getMessage());
-            } catch (Exception rollbackEx) {
-                // Log rollback failure
-                logger.error(rollbackEx.getMessage());
-            }
             logger.error("Transfer failed :{}", e.getMessage(), e);
             throw new RuntimeException("Transfer failed", e);
         }
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsByUser(String userId) {
+        return getTransactionsByUser(userId, 0, Integer.MAX_VALUE);
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsByUser(String userId, int offset, int limit) {
+        return transactionDAO.findByUser(userId, offset, limit)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsBySourceAccount(String accId) {
+        return getTransactionsBySourceAccount(accId, 0, Integer.MAX_VALUE);
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsBySourceAccount(String accId, int offset, int limit) {
+        return transactionDAO.findBySourceAccId(accId, offset, limit)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsByTargetAccount(String accId) {
+        return getTransactionsByTargetAccount(accId, 0, Integer.MAX_VALUE);
+    }
+
+    @Override
+    public List<TransactionDTO> getTransactionsByTargetAccount(String accId, int offset, int limit) {
+        return transactionDAO.findByTargetAccId(accId, offset, limit)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     private TransactionDTO mapToDTO(Transaction transaction) {

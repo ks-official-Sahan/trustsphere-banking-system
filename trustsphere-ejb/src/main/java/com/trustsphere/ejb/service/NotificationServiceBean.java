@@ -1,8 +1,8 @@
 package com.trustsphere.ejb.service;
 
-import com.trustsphere.ejb.api.NotificationServiceRemote;
+import com.trustsphere.ejb.remote.NotificationServiceRemote;
 import com.trustsphere.ejb.dao.NotificationDAO;
-import com.trustsphere.ejb.dto.NotificationDTO;
+import com.trustsphere.core.dto.NotificationDTO;
 import com.trustsphere.core.entity.Notification;
 import com.trustsphere.core.enums.NotificationType;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-@RolesAllowed({"ROLE_USER","ROLE_ADMIN","ROLE_TELLER"})
+@RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TELLER"})
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class NotificationServiceBean implements NotificationServiceRemote {
 
@@ -26,15 +26,25 @@ public class NotificationServiceBean implements NotificationServiceRemote {
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<NotificationDTO> getNotificationsByUser(String userId) {
-        return notificationDAO.findByUserId(userId).stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+        return getNotificationsByUser(userId, 0, 1000);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<NotificationDTO> getNotificationsByType(NotificationType type) {
-        return notificationDAO.findByType(type).stream()
+        return getNotificationsByType(type, 0, 1000);
+    }
+
+    @Override
+    public List<NotificationDTO> getNotificationsByUser(String userId, int offset, int limit) {
+        return notificationDAO.findByUserId(userId, offset, limit).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NotificationDTO> getNotificationsByType(NotificationType type, int offset, int limit) {
+        return notificationDAO.findByType(type, offset, limit).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }

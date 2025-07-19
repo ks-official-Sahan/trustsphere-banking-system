@@ -1,4 +1,4 @@
-package com.trustsphere.ejb.dto;
+package com.trustsphere.core.dto;
 
 import com.trustsphere.core.enums.SeverityLevel;
 
@@ -24,8 +24,6 @@ public class AuditLogDTO implements Serializable {
     private Instant timestamp;
 
     public AuditLogDTO() {}
-
-    // Getters and Setters
 
     public String getId() {
         return id;

@@ -1,7 +1,7 @@
-package com.trustsphere.ejb.api;
+package com.trustsphere.ejb.remote;
 
 import com.trustsphere.core.enums.SeverityLevel;
-import com.trustsphere.ejb.dto.AuditLogDTO;
+import com.trustsphere.core.dto.AuditLogDTO;
 
 import jakarta.ejb.Remote;
 import java.util.List;
@@ -11,9 +11,15 @@ public interface AuditServiceRemote {
 
     List<AuditLogDTO> getRecentLogs(int limit);
 
+    List<AuditLogDTO> getLogsBySeverity(SeverityLevel level, int offset, int limit);
+
     List<AuditLogDTO> getLogsBySeverity(SeverityLevel level);
 
+    List<AuditLogDTO> getLogsByUser(String userId, int offset, int limit);
+
     List<AuditLogDTO> getLogsByUser(String userId);
+
+    List<AuditLogDTO> getLogsByResource(String resourceType, String resourceId, int offset, int limit);
 
     List<AuditLogDTO> getLogsByResource(String resourceType, String resourceId);
 

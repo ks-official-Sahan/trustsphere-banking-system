@@ -19,14 +19,14 @@ public class NotificationDAO {
         return notification;
     }
 
-    public List<Notification> findByUserId(String userId) {
-        TypedQuery<Notification> query = em.createNamedQuery("Notification.findByUserId", Notification.class);
+    public List<Notification> findByUserId(String userId, int offset, int limit) {
+        TypedQuery<Notification> query = em.createNamedQuery("Notification.findByUserId", Notification.class).setFirstResult(offset).setMaxResults(limit);
         query.setParameter("userId", userId);
         return query.getResultList();
     }
 
-    public List<Notification> findByType(NotificationType type) {
-        TypedQuery<Notification> query = em.createNamedQuery("Notification.findByType", Notification.class);
+    public List<Notification> findByType(NotificationType type, int offset, int limit) {
+        TypedQuery<Notification> query = em.createNamedQuery("Notification.findByType", Notification.class).setFirstResult(offset).setMaxResults(limit);
         query.setParameter("type", type);
         return query.getResultList();
     }

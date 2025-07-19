@@ -1,7 +1,7 @@
-package com.trustsphere.ejb.api;
+package com.trustsphere.ejb.remote;
 
 import com.trustsphere.core.enums.UserStatus;
-import com.trustsphere.ejb.dto.UserDTO;
+import com.trustsphere.core.dto.UserDTO;
 import jakarta.ejb.Remote;
 
 import java.util.List;

@@ -1,10 +1,9 @@
-package com.trustsphere.ejb.dto;
+package com.trustsphere.core.dto;
 
 import com.trustsphere.core.enums.UserStatus;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 public class UserDTO implements Serializable {

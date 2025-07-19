@@ -1,10 +1,9 @@
-package com.trustsphere.ejb.dto;
+package com.trustsphere.core.dto;
 
 import com.trustsphere.core.enums.NotificationType;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class NotificationDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,7 +14,6 @@ public class NotificationDTO implements Serializable {
     private String message;
     private Instant timestamp;
 
-    // Getters & Setters
     public String getId() {
         return id;
     }

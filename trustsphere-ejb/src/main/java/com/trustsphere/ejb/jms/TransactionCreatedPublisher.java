@@ -28,8 +28,8 @@ public class TransactionCreatedPublisher {
             ObjectMessage msg = context.createObjectMessage(txn);
             context.createProducer().send(topic, msg);
         } catch (Exception e) {
-            //throw new EJBException("JMS publish failed", e);
             logger.error("JMS publish failed :{}", e.getMessage(), e);
+            throw new EJBException("JMS publish failed", e);
         }
     }
 }

@@ -2,9 +2,9 @@ package com.trustsphere.ejb.service;
 
 import com.trustsphere.core.entity.AuditLog;
 import com.trustsphere.core.enums.SeverityLevel;
-import com.trustsphere.ejb.api.AuditServiceRemote;
+import com.trustsphere.ejb.remote.AuditServiceRemote;
 import com.trustsphere.ejb.dao.AuditLogDAO;
-import com.trustsphere.ejb.dto.AuditLogDTO;
+import com.trustsphere.core.dto.AuditLogDTO;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
@@ -36,9 +36,21 @@ public class AuditServiceBean implements AuditServiceRemote {
     }
 
     @Override
+    public List<AuditLogDTO> getLogsBySeverity(SeverityLevel level, int offset, int limit) {
+        return auditLogDAO.findBySeverity(level, offset, limit).stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<AuditLogDTO> getLogsBySeverity(SeverityLevel level) {
-        return auditLogDAO.findBySeverity(level).stream()
+        return getLogsBySeverity(level, 0, 1000);
+    }
+
+    @Override
+    public List<AuditLogDTO> getLogsByUser(String userId, int offset, int limit) {
+        return auditLogDAO.findByUserId(userId, offset, limit).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
@@ -46,7 +58,12 @@ public class AuditServiceBean implements AuditServiceRemote {
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<AuditLogDTO> getLogsByUser(String userId) {
-        return auditLogDAO.findByUserId(userId).stream()
+        return getLogsByUser(userId, 0, 1000);
+    }
+
+    @Override
+    public List<AuditLogDTO> getLogsByResource(String resourceType, String resourceId, int offset, int limit) {
+        return auditLogDAO.findByResource(resourceType, resourceId, offset, limit).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
@@ -54,9 +71,7 @@ public class AuditServiceBean implements AuditServiceRemote {
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<AuditLogDTO> getLogsByResource(String resourceType, String resourceId) {
-        return auditLogDAO.findByResource(resourceType, resourceId).stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+        return getLogsByResource(resourceType, resourceId, 0, 1000);
     }
 
     @Override

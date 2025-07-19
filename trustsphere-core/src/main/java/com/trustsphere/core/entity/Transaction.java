@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -35,7 +37,7 @@ import java.time.Instant;
 })
 @Entity
 @Table(name = "transactions")
-public class Transaction extends BaseAuditEntity {
+public class Transaction extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

@@ -31,22 +31,28 @@ public class AuditLogDAO {
                 .getResultList();
     }
 
-    public List<AuditLog> findBySeverity(SeverityLevel level) {
+    public List<AuditLog> findBySeverity(SeverityLevel level, int offset, int limit) {
         return em.createNamedQuery("AuditLog.findBySeverity", AuditLog.class)
                 .setParameter("severityLevel", level)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
-    public List<AuditLog> findByUserId(String userId) {
+    public List<AuditLog> findByUserId(String userId, int offset, int limit) {
         return em.createNamedQuery("AuditLog.findByUserId", AuditLog.class)
                 .setParameter("userId", userId)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
-    public List<AuditLog> findByResource(String type, String resourceId) {
+    public List<AuditLog> findByResource(String type, String resourceId, int offset, int limit) {
         return em.createNamedQuery("AuditLog.findByResource", AuditLog.class)
                 .setParameter("resourceType", type)
                 .setParameter("resourceId", resourceId)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 

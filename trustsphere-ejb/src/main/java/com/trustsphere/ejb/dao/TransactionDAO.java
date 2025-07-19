@@ -28,6 +28,30 @@ public class TransactionDAO {
         return query.getResultList();
     }
 
+    public List<Transaction> findByUser(String userId, int offset, int limit) {
+        TypedQuery<Transaction> query = em.createNamedQuery("Transaction.findByUserId", Transaction.class);
+        query.setParameter("userId", userId);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return query.getResultList();
+    }
+
+    public List<Transaction> findBySourceAccId(String accId, int offset, int limit) {
+        TypedQuery<Transaction> query = em.createNamedQuery("Transaction.findBySourceAccountId", Transaction.class);
+        query.setParameter("accountId", accId);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return query.getResultList();
+    }
+
+    public List<Transaction> findByTargetAccId(String accId, int offset, int limit) {
+        TypedQuery<Transaction> query = em.createNamedQuery("Transaction.findBySourceAccountId", Transaction.class);
+        query.setParameter("accountId", accId);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return query.getResultList();
+    }
+
     public Transaction update(Transaction transaction) {
         return em.merge(transaction);
     }
@@ -39,4 +63,16 @@ public class TransactionDAO {
             em.remove(em.merge(transaction));
         }
     }
+
+//    private TransactionDTO mapToDTO(Transaction transaction) {
+//        TransactionDTO dto = new TransactionDTO();
+//        dto.setId(transaction.getId());
+//        dto.setAmount(transaction.getAmount());
+//        dto.setSourceAccountId(transaction.getSourceAccount().getId());
+//        dto.setTargetAccountId(transaction.getTargetAccount().getId());
+//        dto.setType(transaction.getType());
+//        dto.setTimestamp(transaction.getTimestamp());
+//        dto.setStatus(transaction.getStatus());
+//        return dto;
+//    }
 }

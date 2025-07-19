@@ -1,11 +1,11 @@
-package com.trustsphere.ejb.dto;
+package com.trustsphere.core.dto;
 
 import com.trustsphere.core.enums.AccountStatus;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class AccountDTO implements Serializable {
 
@@ -13,6 +13,8 @@ public class AccountDTO implements Serializable {
     private String accountNumber;
     private BigDecimal balance;
     private AccountStatus status;
+
+    @NotBlank(message = "userId is required")
     private String userId;
     private Instant createdAt;
     private Instant updatedAt;

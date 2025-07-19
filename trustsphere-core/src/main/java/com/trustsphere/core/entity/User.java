@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @NamedQueries({
@@ -34,7 +35,7 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "users")
-public class User extends BaseAuditEntity {
+public class User extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @Email

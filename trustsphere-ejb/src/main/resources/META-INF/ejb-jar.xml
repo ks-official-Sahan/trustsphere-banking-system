@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar version="4.0"
+         xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/ejb-jar_4_0.xsd">
+
+    <enterprise-beans>
+        <session>
+            <ejb-name>AccountServiceBean</ejb-name>
+            <env-entry>
+                <env-entry-name>dailyInterestRate</env-entry-name>
+                <env-entry-type>java.lang.Double</env-entry-type>
+                <env-entry-value>0.0005</env-entry-value>
+            </env-entry>
+        </session>
+    </enterprise-beans>
+</ejb-jar>

@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "accounts")
-public class Account extends BaseAuditEntity {
+public class Account extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @Size(min = 10, max = 20)

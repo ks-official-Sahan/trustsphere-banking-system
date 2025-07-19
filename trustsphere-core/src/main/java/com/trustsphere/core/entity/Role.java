@@ -5,6 +5,8 @@ import com.trustsphere.core.entity.base.BaseAuditEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.util.Set;
 
 @NamedQueries({
@@ -19,7 +21,7 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "roles")
-public class Role extends BaseAuditEntity {
+public class Role extends BaseAuditEntity implements Serializable {
 
     @NotNull
     @Size(min = 2, max = 50)
