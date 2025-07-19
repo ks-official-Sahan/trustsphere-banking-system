@@ -1,4 +1,4 @@
-package com.trustsphere.ejb.dto;
+package com.trustsphere.core.dto;
 
 import com.trustsphere.core.enums.NotificationType;
 

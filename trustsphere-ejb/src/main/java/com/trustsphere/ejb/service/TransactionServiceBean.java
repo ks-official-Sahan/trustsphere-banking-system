@@ -10,7 +10,7 @@ import com.trustsphere.ejb.api.TransactionServiceRemote;
 import com.trustsphere.ejb.dao.TransactionDAO;
 import com.trustsphere.ejb.dao.AccountDAO;
 import com.trustsphere.ejb.dao.AuditLogDAO;
-import com.trustsphere.ejb.dto.TransactionDTO;
+import com.trustsphere.core.dto.TransactionDTO;
 import com.trustsphere.ejb.exception.AccountNotFoundException;
 import com.trustsphere.ejb.exception.InsufficientFundsException;
 

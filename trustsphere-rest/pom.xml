@@ -8,9 +8,137 @@
         <artifactId>trustsphere-parent</artifactId>
         <version>1.0.0</version>
     </parent>
-    <packaging>war</packaging>
 
     <artifactId>trustsphere-rest</artifactId>
+
+    <packaging>war</packaging>
+    <name>TrustSphere :: REST API</name>
+
+    <dependencies>
+        <!-- Jakarta EE 10 Platform APIs -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- EJB Remote API -->
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-ejb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Core DTOs and Enums -->
+        <dependency>
+            <groupId>com.trustsphere</groupId>
+            <artifactId>trustsphere-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- MicroProfile OpenAPI (Swagger) -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <version>3.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Swagger Core for JAX-RS Integration -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.18.0</version>
+        </dependency>
+
+        <!-- Swagger UI Static Resources -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>4.18.2</version>
+        </dependency>
+
+        <!-- WebJars Servlet for Static Resource Serving -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-servlet-2.x</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+        <!-- JSON Web Token / JJWT (for auth filter if needed) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.15.0</version>
+        </dependency>
+
+        <!-- Logging (SLF4J + JUL Bridge) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+
+        <!-- Bean Validation -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>trustsphere-rest</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -4,7 +4,7 @@ import com.trustsphere.core.entity.AuditLog;
 import com.trustsphere.core.enums.SeverityLevel;
 import com.trustsphere.ejb.api.AuditServiceRemote;
 import com.trustsphere.ejb.dao.AuditLogDAO;
-import com.trustsphere.ejb.dto.AuditLogDTO;
+import com.trustsphere.core.dto.AuditLogDTO;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;

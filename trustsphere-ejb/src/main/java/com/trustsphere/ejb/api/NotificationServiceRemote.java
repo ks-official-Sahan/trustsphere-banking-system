@@ -1,6 +1,6 @@
 package com.trustsphere.ejb.api;
 
-import com.trustsphere.ejb.dto.NotificationDTO;
+import com.trustsphere.core.dto.NotificationDTO;
 import com.trustsphere.core.enums.NotificationType;
 import jakarta.ejb.Remote;
 

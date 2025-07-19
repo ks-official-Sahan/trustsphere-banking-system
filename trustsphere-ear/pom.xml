@@ -9,6 +9,7 @@
         <version>1.0.0</version>
     </parent>
     <packaging>ear</packaging>
+    <name>TrustSphere :: EAR</name>
 
     <artifactId>trustsphere-ear</artifactId>
 
@@ -17,5 +18,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+        <finalName>trustsphere-ear</finalName>
+    </build>
 
 </project>

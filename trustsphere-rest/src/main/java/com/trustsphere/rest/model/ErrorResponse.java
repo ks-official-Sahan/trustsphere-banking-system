@@ -1,4 +1,4 @@
-package com.trustsphere.rest.mapper;
+package com.trustsphere.rest.model;
 
 /**
  * Standardized error response structure

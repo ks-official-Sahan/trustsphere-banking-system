@@ -2,7 +2,7 @@ package com.trustsphere.ejb.service;
 
 import com.trustsphere.ejb.api.NotificationServiceRemote;
 import com.trustsphere.ejb.dao.NotificationDAO;
-import com.trustsphere.ejb.dto.NotificationDTO;
+import com.trustsphere.core.dto.NotificationDTO;
 import com.trustsphere.core.entity.Notification;
 import com.trustsphere.core.enums.NotificationType;
 

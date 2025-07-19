@@ -9,7 +9,7 @@ import com.trustsphere.core.entity.Account;
 import com.trustsphere.core.enums.AccountStatus;
 import com.trustsphere.ejb.api.AccountServiceRemote;
 import com.trustsphere.ejb.dao.AccountDAO;
-import com.trustsphere.ejb.dto.AccountDTO;
+import com.trustsphere.core.dto.AccountDTO;
 import com.trustsphere.ejb.exception.AccountNotFoundException;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -34,7 +34,7 @@ public class AccountServiceBean implements AccountServiceRemote {
     }
 
     @Override
-    public AccountDTO getAccountById(String id) {
+    public AccountDTO getAccountById(String id) throws AccountNotFoundException {
         Account account = accountDAO.findById(id);
         if (account == null) {
             throw new AccountNotFoundException(id);
@@ -51,7 +51,7 @@ public class AccountServiceBean implements AccountServiceRemote {
     }
 
     @Override
-    public void updateStatus(String id, AccountStatus status) {
+    public void updateStatus(String id, AccountStatus status) throws AccountNotFoundException {
         Account account = accountDAO.findById(id);
         if (account == null) {
             throw new AccountNotFoundException(id);

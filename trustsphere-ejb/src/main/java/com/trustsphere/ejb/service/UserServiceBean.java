@@ -5,7 +5,7 @@ import com.trustsphere.core.entity.Role;
 import com.trustsphere.core.enums.UserStatus;
 import com.trustsphere.ejb.api.UserServiceRemote;
 import com.trustsphere.ejb.dao.UserDAO;
-import com.trustsphere.ejb.dto.UserDTO;
+import com.trustsphere.core.dto.UserDTO;
 import com.trustsphere.ejb.exception.UserNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ public class UserServiceBean implements UserServiceRemote {
     }
 
     @Override
-    public UserDTO getUserById(String id) {
+    public UserDTO getUserById(String id) throws  UserNotFoundException {
         User user = userDAO.findById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
@@ -50,13 +50,15 @@ public class UserServiceBean implements UserServiceRemote {
     }
 
     @Override
-    public void updateStatus(String id, UserStatus status) {
+    public void updateStatus(String id, UserStatus status) throws UserNotFoundException {
         User user = userDAO.findById(id);
         if (user == null) {
             throw new UserNotFoundException(id);
         }
         user.setStatus(status);
-        userDAO.update(user);
+        //User updated =
+                userDAO.update(user);
+        //return updated != null;
     }
 
     private User mapToEntity(UserDTO dto) {

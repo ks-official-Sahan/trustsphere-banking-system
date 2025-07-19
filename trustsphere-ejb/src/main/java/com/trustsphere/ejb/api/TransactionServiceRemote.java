@@ -1,6 +1,6 @@
 package com.trustsphere.ejb.api;
 
-import com.trustsphere.ejb.dto.TransactionDTO;
+import com.trustsphere.core.dto.TransactionDTO;
 import jakarta.ejb.Remote;
 
 import java.math.BigDecimal;

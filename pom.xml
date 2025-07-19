@@ -8,6 +8,7 @@
     <artifactId>trustsphere-parent</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+    <name>TrustSphere :: Banking System</name>
     <modules>
         <module>trustsphere-core</module>
         <module>trustsphere-ejb</module>
@@ -31,5 +32,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+        <finalName>trustsphere-banking-system</finalName>
+    </build>
 
 </project>
