@@ -1,13 +1,14 @@
 package com.trustsphere.core.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class ValidationUtils {
-    
-    private static final Logger LOGGER = Logger.getLogger(ValidationUtils.class.getName());
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUtils.class.getName());
+
     // Regex patterns for validation
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
         "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
@@ -177,7 +178,6 @@ public class ValidationUtils {
     }
     
     public static void logValidationFailure(String field, String value, String reason) {
-        LOGGER.warning(String.format("Validation failed for field '%s' with value '%s': %s", 
-                                   field, value, reason));
+        LOGGER.warn("Validation failed for field '{}' with value '{}': {}", field, value, reason);
     }
 } 
