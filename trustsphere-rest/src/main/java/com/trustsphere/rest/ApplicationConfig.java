@@ -22,6 +22,7 @@ public class ApplicationConfig extends Application {
                 // Business Domain Resources - Priority 500
                 AccountResource.class,
                 AuditResource.class,
+                AuthResource.class,
                 NotificationResource.class,
                 TransactionResource.class,
                 UserResource.class,
@@ -30,7 +31,8 @@ public class ApplicationConfig extends Application {
                 CorsFilter.class,
                 RestExceptionMapper.class,
                 ValidationExceptionMapper.class,
-                SecurityExceptionMapper.class
+                SecurityExceptionMapper.class,
+                AuthenticationExceptionMapper.class
         );
     }
 }

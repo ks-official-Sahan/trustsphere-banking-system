@@ -1,5 +1,6 @@
 package com.trustsphere.core.util;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,49 +57,5 @@ public class PasswordHasher {
         return password.toString();
     }
     
-    private static class BCrypt {
-        private static final String ALPHABET = "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        
-        public static String hashpw(String password, String salt) {
-            return "bcrypt$" + salt + "$" + simpleHash(password + salt);
-        }
-        
-        public static String gensalt(int cost) {
-            StringBuilder salt = new StringBuilder("$2a$");
-            if (cost < 10) salt.append("0");
-            salt.append(cost).append("$");
-            
-            for (int i = 0; i < 22; i++) {
-                salt.append(ALPHABET.charAt(SECURE_RANDOM.nextInt(ALPHABET.length())));
-            }
-            
-            return salt.toString();
-        }
-        
-        public static boolean checkpw(String password, String hashedPassword) {
-            if (!hashedPassword.startsWith("bcrypt$")) {
-                return false;
-            }
-            
-            String[] parts = hashedPassword.split("\\$");
-            if (parts.length != 3) {
-                return false;
-            }
-            
-            String salt = parts[1];
-            String expectedHash = parts[2];
-            String actualHash = simpleHash(password + salt);
-            
-            return expectedHash.equals(actualHash);
-        }
-        
-        private static String simpleHash(String input) {
-            int hash = 0;
-            for (char c : input.toCharArray()) {
-                hash = ((hash << 5) - hash) + c;
-                hash = hash & hash; // Convert to 32-bit integer
-            }
-            return Integer.toHexString(Math.abs(hash));
-        }
-    }
+
 } 
