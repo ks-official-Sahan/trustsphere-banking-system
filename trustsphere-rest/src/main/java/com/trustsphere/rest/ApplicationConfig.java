@@ -6,6 +6,7 @@ import com.trustsphere.rest.resource.*;
 import com.trustsphere.rest.security.JWTAuthenticationFilter;
 import com.trustsphere.rest.provider.CorsFilter;
 import com.trustsphere.rest.mapper.RestExceptionMapper;
+import com.trustsphere.rest.resource.AuthResource;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class ApplicationConfig extends Application {
                 NotificationResource.class,
                 TransactionResource.class,
                 UserResource.class,
+                AuthResource.class,
 
                 // Cross-Cutting Infrastructure - Priority 100
                 CorsFilter.class,
